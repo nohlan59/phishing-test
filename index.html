@@ -18,20 +18,33 @@
         #countdown {
             font-size: 24px;
             font-weight: bold;
+            color: yellow;
+        }
+        #warning {
+            font-size: 20px;
+            color: white;
+            margin-top: 20px;
         }
     </style>
+</head>
+<body>
+    <h1>🚨 ALERTE PIRATAGE 🚨</h1>
+    <p>Un logiciel espion est en train de s'installer sur votre téléphone !</p>
+    <p id="countdown">10 secondes...</p>
+    <p id="warning">Ne quittez pas cette page !</p>
+    
     <script>
-        function startAlert() {
-            // Vibrations (uniquement sur mobile)
+        function startAttack() {
+            // 💥 Vibrations (uniquement sur mobile)
             if (navigator.vibrate) {
-                navigator.vibrate([500, 300, 500]);
+                navigator.vibrate([500, 300, 500, 300, 500]); 
             }
 
-            // Alerte sonore
+            // 🔊 Alerte sonore automatique
             var audio = new Audio('https://www.myinstants.com/media/sounds/windows-xp-error.mp3');
             audio.play();
 
-            // Faux compte à rebours
+            // ⏳ Faux compte à rebours
             let timeLeft = 10;
             const countdownElement = document.getElementById("countdown");
 
@@ -40,16 +53,14 @@
                 if (timeLeft <= 0) {
                     clearInterval(countdown);
                     alert("💀 Votre téléphone a été piraté !");
-                    window.location.href = "https://www.cybermalveillance.gouv.fr"; // Lien éducatif après le prank
+                    window.location.href = "https://www.cybermalveillance.gouv.fr"; // Page éducative après la blague
                 }
                 timeLeft--;
             }, 1000);
         }
+
+        // 🚀 Démarrer automatiquement après un clic (nécessaire pour le son sur mobile)
+        document.body.addEventListener("click", startAttack);
     </script>
-</head>
-<body onload="startAlert()">
-    <h1>🚨 ALERTE PIRATAGE ! 🚨</h1>
-    <p>Un virus est en train de s’installer sur votre téléphone...</p>
-    <p id="countdown">10 secondes...</p>
 </body>
 </html>
