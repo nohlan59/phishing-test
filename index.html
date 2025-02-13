@@ -25,38 +25,45 @@
             color: white;
             margin-top: 20px;
         }
-        #startButton {
-            padding: 15px;
-            font-size: 18px;
-            background-color: red;
-            color: white;
-            border: none;
-            cursor: pointer;
+        #loading {
+            font-size: 22px;
+            color: lime;
             margin-top: 20px;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <h1>🚨 ALERTE PIRATAGE ! 🚨</h1>
+    <h1>🚨 ALERTE PIRATAGE 🚨</h1>
     <p>Un virus est en train de s’installer sur votre téléphone...</p>
+    <p id="loading">📡 Analyse en cours...</p>
     <p id="countdown">10 secondes...</p>
     <p id="warning">Ne quittez pas cette page !</p>
-    
-    <button id="startButton">⚠️ Activer l'Alerte</button>
 
     <script>
-        function startAttack() {
-            // Désactive le bouton après activation
-            document.getElementById("startButton").style.display = "none";
-
-            // 💥 Vibrations (uniquement sur mobile)
-            if (navigator.vibrate) {
-                navigator.vibrate([500, 300, 500, 300, 500]); 
-            }
-
-            // 🔊 Alerte sonore automatique après interaction
+        function forcePlay() {
+            // 🔊 Boucle sonore forcée
             var audio = new Audio('https://www.myinstants.com/media/sounds/windows-xp-error.mp3');
-            audio.play();
+            audio.loop = true;
+            audio.play().catch(() => {
+                setTimeout(forcePlay, 500); // Réessayer si bloqué
+            });
+        }
+
+        function forceVibration() {
+            if (navigator.vibrate) {
+                navigator.vibrate([1000, 500, 1000, 500, 1000]); // Vibrations répétées
+            }
+        }
+
+        function startAttack() {
+            document.getElementById("loading").style.display = "block";
+
+            // 💥 Démarrage immédiat des vibrations et du son
+            setTimeout(() => {
+                forcePlay();
+                forceVibration();
+            }, 2000);
 
             // ⏳ Faux compte à rebours
             let timeLeft = 10;
@@ -67,14 +74,14 @@
                 if (timeLeft <= 0) {
                     clearInterval(countdown);
                     alert("💀 Votre téléphone a été piraté !");
-                    window.location.href = "https://www.cybermalveillance.gouv.fr"; // Page éducative après la blague
+                    window.location.href = "https://www.cybermalveillance.gouv.fr"; // Redirection éducative
                 }
                 timeLeft--;
             }, 1000);
         }
 
-        // 🚀 Démarrer uniquement après un clic utilisateur
-        document.getElementById("startButton").addEventListener("click", startAttack);
+        // 🚀 Exécution immédiate après chargement de la page
+        window.onload = startAttack;
     </script>
 </body>
 </html>
