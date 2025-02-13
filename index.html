@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerte Sécurité</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+            background-color: black;
+            color: red;
+        }
+        h1 {
+            font-size: 28px;
+        }
+        #countdown {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function startAlert() {
+            // Vibrations (uniquement sur mobile)
+            if (navigator.vibrate) {
+                navigator.vibrate([500, 300, 500]);
+            }
+
+            // Alerte sonore
+            var audio = new Audio('https://www.myinstants.com/media/sounds/windows-xp-error.mp3');
+            audio.play();
+
+            // Faux compte à rebours
+            let timeLeft = 10;
+            const countdownElement = document.getElementById("countdown");
+
+            const countdown = setInterval(() => {
+                countdownElement.innerText = timeLeft + " secondes...";
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    alert("💀 Votre téléphone a été piraté !");
+                    window.location.href = "https://www.cybermalveillance.gouv.fr"; // Lien éducatif après le prank
+                }
+                timeLeft--;
+            }, 1000);
+        }
+    </script>
+</head>
+<body onload="startAlert()">
+    <h1>🚨 ALERTE PIRATAGE ! 🚨</h1>
+    <p>Un virus est en train de s’installer sur votre téléphone...</p>
+    <p id="countdown">10 secondes...</p>
+</body>
+</html>
