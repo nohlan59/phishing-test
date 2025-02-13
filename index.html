@@ -25,22 +25,36 @@
             color: white;
             margin-top: 20px;
         }
+        #startButton {
+            padding: 15px;
+            font-size: 18px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>🚨 ALERTE PIRATAGE 🚨</h1>
-    <p>Un logiciel espion est en train de s'installer sur votre téléphone !</p>
+    <h1>🚨 ALERTE PIRATAGE ! 🚨</h1>
+    <p>Un virus est en train de s’installer sur votre téléphone...</p>
     <p id="countdown">10 secondes...</p>
     <p id="warning">Ne quittez pas cette page !</p>
     
+    <button id="startButton">⚠️ Activer l'Alerte</button>
+
     <script>
         function startAttack() {
+            // Désactive le bouton après activation
+            document.getElementById("startButton").style.display = "none";
+
             // 💥 Vibrations (uniquement sur mobile)
             if (navigator.vibrate) {
                 navigator.vibrate([500, 300, 500, 300, 500]); 
             }
 
-            // 🔊 Alerte sonore automatique
+            // 🔊 Alerte sonore automatique après interaction
             var audio = new Audio('https://www.myinstants.com/media/sounds/windows-xp-error.mp3');
             audio.play();
 
@@ -59,8 +73,8 @@
             }, 1000);
         }
 
-        // 🚀 Démarrer automatiquement après un clic (nécessaire pour le son sur mobile)
-        document.body.addEventListener("click", startAttack);
+        // 🚀 Démarrer uniquement après un clic utilisateur
+        document.getElementById("startButton").addEventListener("click", startAttack);
     </script>
 </body>
 </html>
