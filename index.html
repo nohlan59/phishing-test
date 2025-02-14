@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Téléchargement en cours...</title>
+    <title>🔒 Infiltration en cours...</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
@@ -11,91 +11,157 @@
             background: black;
             color: limegreen;
             font-family: 'VT323', monospace;
-            text-align: center;
-            padding: 50px;
+            text-align: left;
+            padding: 20px;
+            overflow: hidden;
+            animation: crt-flicker 0.1s infinite alternate;
         }
 
-        h1 {
-            font-size: 26px;
-        }
-
-        .progress-container {
-            width: 60%;
-            background-color: #222;
-            border: 2px solid limegreen;
-            border-radius: 5px;
-            margin: 20px auto;
-            padding: 3px;
-        }
-
-        .progress-bar {
-            width: 0%;
-            height: 25px;
-            background-color: limegreen;
-            text-align: center;
-            line-height: 25px;
-            font-weight: bold;
-            color: black;
-            transition: width 0.2s;
-        }
-
-        .status {
-            font-size: 18px;
-            margin-top: 20px;
-            animation: blink 1s infinite alternate;
-        }
-
-        @keyframes blink {
+        @keyframes crt-flicker {
             from { opacity: 1; }
-            to { opacity: 0.5; }
+            to { opacity: 0.9; }
+        }
+
+        .terminal {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 20px;
+            border: 2px solid limegreen;
+            width: 90%;
+            max-width: 800px;
+            height: 400px;
+            overflow-y: auto;
+            margin: auto;
+            box-shadow: 0px 0px 15px limegreen;
+        }
+
+        .command {
+            color: limegreen;
+        }
+
+        .output {
+            color: white;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            color: limegreen;
+            padding: 30px;
+            border: 2px solid limegreen;
+            text-align: center;
+            z-index: 999;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0px 0px 20px limegreen;
+            animation: glitch 0.8s infinite alternate;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(-50%, -50%) skewX(-5deg); }
+            100% { transform: translate(-50%, -50%) skewX(5deg); }
+        }
+
+        .popup button {
+            background: limegreen;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-family: 'VT323', monospace;
+            font-weight: bold;
+        }
+
+        .popup button:hover {
+            background: white;
         }
     </style>
 </head>
 <body>
 
-    <h1>📂 Téléchargement du fichier sécurisé...</h1>
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar">0%</div>
+    <h1>🚨 Infiltration du Système en Cours...</h1>
+    <div class="terminal" id="terminal">
+        <p>root@darknet:~$ Initialisation du script...</p>
     </div>
-    <p class="status" id="status">Préparation des fichiers...</p>
+
+    <!-- POPUP -->
+    <div class="popup" id="popup">
+        <h2>⚠️ Vous avez vu ce que peut faire un QR Code ?</h2>
+        <p>En un scan, vos données peuvent être compromises... Attention.</p>
+        <button onclick="redirectToLinkedIn()">OK, compris</button>
+    </div>
+
+    <audio id="hackingSound" src="https://www.myinstants.com/media/sounds/windows-xp-error.mp3" preload="auto"></audio>
 
     <script>
-        let progress = 0;
-        let statusText = document.getElementById("status");
-        let progressBar = document.getElementById("progressBar");
+        const terminal = document.getElementById("terminal");
+        const popup = document.getElementById("popup");
+        const hackingSound = document.getElementById("hackingSound");
 
-        const statusMessages = [
-            "Connexion au serveur sécurisé...",
-            "Validation des droits d'accès...",
-            "Téléchargement en cours...",
-            "Déchiffrement des paquets...",
-            "Optimisation des données...",
-            "Finalisation du processus..."
+        const fakeUserData = {
+            "Nom d'utilisateur": "nohlan_shadow",
+            "Email": "nohlan@darkmail.com",
+            "Mot de passe": "4c9f@h4ck3d!",
+            "Token d'accès": "DARK-5F3D9A7C-XXXX-XXXX-XXXX",
+            "Adresse IP": "192.168.666.24",
+            "Localisation": "Darkweb Proxy",
+            "Historique de navigation": [
+                "linkedin.com",
+                "github.com",
+                "darkwebmarket.onion",
+                "pentest-lab.com"
+            ]
+        };
+
+        const commands = [
+            { cmd: "🔍 Scan réseau en cours...", delay: 1000 },
+            { cmd: "🔑 Décryptage des connexions SSL...", delay: 1500 },
+            { cmd: "🔗 Connexion aux serveurs distants...", delay: 1800 },
+            { cmd: "💾 Extraction des fichiers utilisateurs...", delay: 2000 }
         ];
 
-        function updateProgress() {
-            if (progress < 100) {
-                progress += Math.floor(Math.random() * 15) + 5; // Incrémente aléatoirement
-                if (progress > 100) progress = 100;
-                
-                progressBar.style.width = progress + "%";
-                progressBar.innerText = progress + "%";
-                
-                let messageIndex = Math.floor(progress / 20);
-                if (messageIndex < statusMessages.length) {
-                    statusText.innerText = statusMessages[messageIndex];
-                }
+        Object.entries(fakeUserData).forEach(([key, value], index) => {
+            let formattedValue = Array.isArray(value) ? value.join(", ") : value;
+            commands.push({ cmd: `📂 Donnée volée → ${key}: ${formattedValue}`, delay: 2200 + (index * 1000) });
+        });
 
-                setTimeout(updateProgress, Math.random() * 1000 + 500);
-            } else {
-                statusText.innerText = "✅ Téléchargement terminé. Redirection en cours...";
-                setTimeout(() => {
-                    window.location.href = "https://www.linkedin.com/in/nohlan-chauvelot-vanlierde-aab944279/"; // Ton LinkedIn
-                }, 2000);
-            }
+        commands.push({ cmd: "⚠️ Exploitation des informations collectées...", delay: 3000 });
+
+        function printCommand(command, delay) {
+            setTimeout(() => {
+                let p = document.createElement("p");
+                p.innerHTML = `<span class="command">root@darknet:~$</span> <span class="output">${command}</span>`;
+                terminal.appendChild(p);
+                terminal.scrollTop = terminal.scrollHeight;
+            }, delay);
         }
 
-        setTimeout(updateProgress, 1000);
+        function startTerminal() {
+            hackingSound.play(); // Joue un son de hacking
+            let totalDelay = 0;
+
+            commands.forEach(({ cmd, delay }) => {
+                printCommand(cmd, totalDelay);
+                totalDelay += delay;
+            });
+
+            // Afficher le popup après extraction
+            setTimeout(() => {
+                popup.style.display = "block";
+            }, totalDelay + 1000);
+        }
+
+        function redirectToLinkedIn() {
+            window.location.replace("https://www.linkedin.com/in/nohlan-chauvelot-vanlierde-aab944279/");
+        }
+
+        // Lancer le script après chargement de la page
+        setTimeout(startTerminal, 1000);
     </script>
 
 </body>
