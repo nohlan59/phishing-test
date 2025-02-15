@@ -33,14 +33,13 @@
             overflow-y: auto;
             margin: auto;
             box-shadow: 0px 0px 15px limegreen;
+            text-shadow: 0 0 10px limegreen;
+            animation: glitch-text 1s infinite alternate;
         }
 
-        .command {
-            color: limegreen;
-        }
-
-        .output {
-            color: white;
+        @keyframes glitch-text {
+            from { text-shadow: 2px 2px 10px limegreen; }
+            to { text-shadow: -2px -2px 10px limegreen; }
         }
 
         .popup {
@@ -58,12 +57,12 @@
             width: 80%;
             max-width: 400px;
             box-shadow: 0px 0px 20px limegreen;
-            animation: glitch 0.8s infinite alternate;
+            animation: glitch-popup 0.5s infinite alternate;
         }
 
-        @keyframes glitch {
-            0% { transform: translate(-50%, -50%) skewX(-5deg); }
-            100% { transform: translate(-50%, -50%) skewX(5deg); }
+        @keyframes glitch-popup {
+            from { transform: translate(-50%, -50%) skewX(-5deg); }
+            to { transform: translate(-50%, -50%) skewX(5deg); }
         }
 
         .popup button {
@@ -89,12 +88,13 @@
             padding: 10px;
             border: 2px solid limegreen;
             display: none;
+            animation: glitch-text 1s infinite alternate;
         }
     </style>
 </head>
 <body>
 
-    <h1>🚨 Infiltration du Système en Cours...</h1>
+    <h1>🚨 INFILTRATION DU SYSTÈME EN COURS...</h1>
     <div class="terminal" id="terminal">
         <p>root@darknet:~$ Initialisation du script...</p>
     </div>
@@ -117,10 +117,8 @@
         const hackingSound = document.getElementById("hackingSound");
         const qrCodeDiv = document.getElementById("qrcode");
 
-        // URL du site vers lequel le QR Code va rediriger
         const qrData = "https://nohlan59.github.io/phishing-test/";
 
-        // Fake user data
         const fakeUserData = {
             "Nom d'utilisateur": "nohlan_shadow",
             "Email": "nohlan@darkmail.com",
@@ -148,7 +146,6 @@
             commands.push({ cmd: `📂 Donnée volée → ${key}: ${formattedValue}`, delay: 2200 + (index * 1000) });
         });
 
-        // Ajout du QR Code comme "donnée volée"
         commands.push({ cmd: "⚠️ Génération d'un QR Code pour exfiltration...", delay: 2500 });
 
         function printCommand(command, delay) {
@@ -161,7 +158,7 @@
         }
 
         function startTerminal() {
-            hackingSound.play(); // Joue un son de hacking
+            hackingSound.play();
             let totalDelay = 0;
 
             commands.forEach(({ cmd, delay }) => {
@@ -169,7 +166,6 @@
                 totalDelay += delay;
             });
 
-            // Afficher le QR Code après son "exfiltration"
             setTimeout(() => {
                 qrCodeDiv.style.display = "block";
                 new QRCode(qrCodeDiv, {
@@ -179,7 +175,6 @@
                 });
             }, totalDelay);
 
-            // Afficher le popup après extraction
             setTimeout(() => {
                 popup.style.display = "block";
             }, totalDelay + 2000);
@@ -189,7 +184,6 @@
             window.location.replace(qrData);
         }
 
-        // Lancer le script après chargement de la page
         setTimeout(startTerminal, 1000);
     </script>
 
