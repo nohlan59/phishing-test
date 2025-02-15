@@ -105,8 +105,9 @@
     <!-- POPUP -->
     <div class="popup" id="popup">
         <h2>⚠️ Vous avez vu ce que peut faire un QR Code ?</h2>
-        <p>En un scan, vos données peuvent être compromises... Faites attention.</p>
-        <button onclick="redirectToLinkedIn()">OK, compris</button>
+        <p>Un simple scan, et vous pouvez être redirigé n'importe où...</p>
+        <p>💡 **Soyez toujours vigilant en scannant un QR Code !**</p>
+        <button onclick="redirectToLinkedIn()">Visitez mon LinkedIn</button>
     </div>
 
     <audio id="hackingSound" src="https://www.myinstants.com/media/sounds/windows-xp-error.mp3" preload="auto"></audio>
@@ -117,36 +118,16 @@
         const hackingSound = document.getElementById("hackingSound");
         const qrCodeDiv = document.getElementById("qrcode");
 
+        // 🔹 URL de ton LinkedIn pour le QR Code
         const qrData = "https://www.linkedin.com/in/nohlan-chauvelot-vanlierde-aab944279/";
 
-        const fakeUserData = {
-            "Nom d'utilisateur": "nohlan_shadow",
-            "Email": "nohlan@darkmail.com",
-            "Mot de passe": "4c9f@h4ck3d!",
-            "Token d'accès": "DARK-5F3D9A7C-XXXX-XXXX-XXXX",
-            "Adresse IP": "192.168.666.24",
-            "Localisation": "Darkweb Proxy",
-            "Historique de navigation": [
-                "linkedin.com",
-                "github.com",
-                "darkwebmarket.onion",
-                "pentest-lab.com"
-            ]
-        };
-
-        const commands = [
-            { cmd: "🔍 Scan réseau en cours...", delay: 1000 },
-            { cmd: "🔑 Décryptage des connexions SSL...", delay: 1500 },
-            { cmd: "🔗 Connexion aux serveurs distants...", delay: 1800 },
-            { cmd: "💾 Extraction des fichiers utilisateurs...", delay: 2000 }
+        // 🔹 Faux logs du terminal
+        const fakeLogs = [
+            { cmd: "🔍 Scan des connexions réseau en cours...", delay: 1000 },
+            { cmd: "🔑 Décryptage des certificats SSL...", delay: 1500 },
+            { cmd: "💾 Simulation d'un vol de données via QR Code...", delay: 1800 },
+            { cmd: "⚠️ Un QR Code inconnu a été détecté !", delay: 2500 }
         ];
-
-        Object.entries(fakeUserData).forEach(([key, value], index) => {
-            let formattedValue = Array.isArray(value) ? value.join(", ") : value;
-            commands.push({ cmd: `📂 Donnée volée → ${key}: ${formattedValue}`, delay: 2200 + (index * 1000) });
-        });
-
-        commands.push({ cmd: "⚠️ Génération d'un QR Code pour exfiltration...", delay: 2500 });
 
         function printCommand(command, delay) {
             setTimeout(() => {
@@ -157,11 +138,11 @@
             }, delay);
         }
 
-        function startTerminal() {
+        function startSimulation() {
             hackingSound.play();
             let totalDelay = 0;
 
-            commands.forEach(({ cmd, delay }) => {
+            fakeLogs.forEach(({ cmd, delay }) => {
                 printCommand(cmd, totalDelay);
                 totalDelay += delay;
             });
@@ -184,7 +165,7 @@
             window.location.replace(qrData);
         }
 
-        setTimeout(startTerminal, 1000);
+        setTimeout(startSimulation, 1000);
     </script>
 
 </body>
