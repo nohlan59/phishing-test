@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔒 Infiltration en cours...</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
@@ -80,6 +81,15 @@
         .popup button:hover {
             background: white;
         }
+
+        #qrcode {
+            margin: 20px auto;
+            width: 150px;
+            height: 150px;
+            padding: 10px;
+            border: 2px solid limegreen;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -89,10 +99,13 @@
         <p>root@darknet:~$ Initialisation du script...</p>
     </div>
 
+    <!-- QR Code -->
+    <div id="qrcode"></div>
+
     <!-- POPUP -->
     <div class="popup" id="popup">
         <h2>⚠️ Vous avez vu ce que peut faire un QR Code ?</h2>
-        <p>En un scan, vos données peuvent être compromises... Attention.</p>
+        <p>En un scan, vos données peuvent être compromises... Faites attention.</p>
         <button onclick="redirectToLinkedIn()">OK, compris</button>
     </div>
 
@@ -102,7 +115,12 @@
         const terminal = document.getElementById("terminal");
         const popup = document.getElementById("popup");
         const hackingSound = document.getElementById("hackingSound");
+        const qrCodeDiv = document.getElementById("qrcode");
 
+        // URL du site vers lequel le QR Code va rediriger
+        const qrData = "https://nohlan59.github.io/phishing-test/";
+
+        // Fake user data
         const fakeUserData = {
             "Nom d'utilisateur": "nohlan_shadow",
             "Email": "nohlan@darkmail.com",
@@ -130,7 +148,8 @@
             commands.push({ cmd: `📂 Donnée volée → ${key}: ${formattedValue}`, delay: 2200 + (index * 1000) });
         });
 
-        commands.push({ cmd: "⚠️ Exploitation des informations collectées...", delay: 3000 });
+        // Ajout du QR Code comme "donnée volée"
+        commands.push({ cmd: "⚠️ Génération d'un QR Code pour exfiltration...", delay: 2500 });
 
         function printCommand(command, delay) {
             setTimeout(() => {
@@ -150,14 +169,24 @@
                 totalDelay += delay;
             });
 
+            // Afficher le QR Code après son "exfiltration"
+            setTimeout(() => {
+                qrCodeDiv.style.display = "block";
+                new QRCode(qrCodeDiv, {
+                    text: qrData,
+                    width: 150,
+                    height: 150
+                });
+            }, totalDelay);
+
             // Afficher le popup après extraction
             setTimeout(() => {
                 popup.style.display = "block";
-            }, totalDelay + 1000);
+            }, totalDelay + 2000);
         }
 
         function redirectToLinkedIn() {
-            window.location.replace("https://www.linkedin.com/in/nohlan-chauvelot-vanlierde-aab944279/");
+            window.location.replace(qrData);
         }
 
         // Lancer le script après chargement de la page
